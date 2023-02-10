@@ -87,7 +87,7 @@ const roll = (j) => {
   }
 
   setTimeout(() => {
-    outcome.textContent = getHands();
+    outcome.textContent = `Outcome: ${getHands()}`;
   }, 3000);
 }
 
