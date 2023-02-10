@@ -70,9 +70,9 @@ const getHands = () => {
 };
 
 const roll = (j) => {
-  const sequence = [Math.floor(Math.random() * 5 + 1)];
+  const sequence = [Math.floor(Math.random() * 6 + 1)];
   while (sequence.length < 10) {
-    const randomSide = Math.floor(Math.random() * 5 + 1);
+    const randomSide = Math.floor(Math.random() * 6 + 1);
     if (sequence[sequence.length - 1] !== randomSide) {
       sequence.push(randomSide);
     }
