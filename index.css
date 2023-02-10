@@ -1,0 +1,123 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #222;
+  color: white;
+  text-align: center;
+  padding-top: 3rem;
+}
+
+button {
+  padding: 1rem 2rem;
+  font-size: 25px;
+  font-weight: bold;
+  border: 0;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: green;
+  color: white;
+}
+
+p {
+  display: none;
+  color: gray;
+  margin-top: 1rem;
+}
+
+#reload {
+  display: none;
+  margin: auto;
+  color: white;
+  background: none;
+  border: none;
+}
+
+#reload:hover {
+  color: rgb(0, 150, 0);
+  text-shadow: white 1px 0 15px;
+}
+
+.game {
+  margin: 3rem auto;
+  width: 800px;
+}
+
+.die-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100px;
+}
+
+.die {
+  --die-width: 100px;
+  --die-height: 100px;
+  position: relative;
+  width: var(--die-width);
+  height: var(--die-height);
+  transform-style: preserve-3d;
+  transition: 250ms linear;
+  transform: rotateX(-15deg) rotateY(-15deg);
+}
+
+.rerolled {
+  color: firebrick !important;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 5px solid ivory;
+  border-radius: 15%;
+  background: linear-gradient(-135deg, ivory, #dddddd);
+  color: black;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--die-width) / 2);
+  user-select: none;
+}
+
+.face::before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 100%;
+  border-radius: 15%;
+  background: ivory;
+  transform: translateZ(-1px);
+}
+
+.face-1 {
+  transform: translateZ(calc(var(--die-width) / 2));
+}
+
+.face-2 {
+  transform: rotateX(90deg) translateZ(calc(var(--die-width) / 2)) ;
+}
+
+.face-3 {
+  transform: rotateY(-90deg) translateZ(calc(var(--die-width) / 2)) ;
+}
+
+.face-4 {
+  transform: rotateY(90deg) translateZ(calc(var(--die-width) / 2)) ;
+}
+
+.face-5 {
+  transform: rotateX(-90deg) translateZ(calc(var(--die-width) / 2)) ;
+}
+
+.face-6 {
+  transform: rotateX(180deg) translateZ(calc(var(--die-width) / 2)) ;
+}
