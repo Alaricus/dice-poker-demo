@@ -31,6 +31,10 @@ p {
   margin-top: 1rem;
 }
 
+#controls {
+  margin-top: 3rem;
+}
+
 #reload {
   display: none;
   margin: auto;
@@ -42,6 +46,12 @@ p {
 #reload:hover {
   color: rgb(0, 150, 0);
   text-shadow: white 1px 0 15px;
+}
+
+#reroll {
+  display: none;
+  margin: auto;
+  margin-top: 1rem;
 }
 
 .game {
@@ -65,6 +75,26 @@ p {
   transform-style: preserve-3d;
   transition: 250ms linear;
   transform: rotateX(-15deg) rotateY(-15deg);
+}
+
+.lock-row {
+  display: none;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100px;
+}
+
+.lock-row button {
+  background-color: transparent;
+  font-size: 3rem;
+}
+
+.locked {
+  color: red;
+}
+
+.unlocked {
+  color: green;
 }
 
 .rerolled {

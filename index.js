@@ -1,14 +1,22 @@
-const die1btn = document.querySelector('#die1');
-const die2btn = document.querySelector('#die2');
-const die3btn = document.querySelector('#die3');
-const die4btn = document.querySelector('#die4');
-const die5btn = document.querySelector('#die5');
-const rollAll = document.querySelector('button');
+const die1 = document.querySelector('#die1');
+const die2 = document.querySelector('#die2');
+const die3 = document.querySelector('#die3');
+const die4 = document.querySelector('#die4');
+const die5 = document.querySelector('#die5');
+const rollAll = document.querySelector('#roll-all');
+const lockRow = document.querySelector('.lock-row');
 const outcome = document.querySelector('h2');
 const hint = document.querySelector('p');
 const reload = document.querySelector('#reload');
+const reroll = document.querySelector('#reroll');
+const lock1 = document.querySelector('#lock1');
+const lock2 = document.querySelector('#lock2');
+const lock3 = document.querySelector('#lock3');
+const lock4 = document.querySelector('#lock4');
+const lock5 = document.querySelector('#lock5');
 
-const elems = [die1btn, die2btn, die3btn, die4btn, die5btn];
+const dice = [die1, die2, die3, die4, die5];
+const locks = [lock1, lock2, lock3, lock4, lock5];
 
 const sideRotations = {
   1: 'rotateX(-15deg) rotateY(-15deg)',
@@ -17,9 +25,27 @@ const sideRotations = {
   4: 'rotateX(0deg) rotateY(-105deg) rotateZ(15deg)',
   5: 'rotateX(75deg) rotateY(0deg) rotateZ(15deg)',
   6: 'rotateX(165deg) rotateY(15deg)',
-}
+};
+
+const holds = [true, true, true, true, true];
 
 let results = [];
+
+const lockSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="30" height="30" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor">
+  <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
+  <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
+  <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
+</svg>`;
+
+const unlockSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="30" height="30" stroke-width="2">
+  <path d="M5 11m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
+  <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+  <path d="M8 11v-5a4 4 0 0 1 8 0"></path>
+</svg>`;
+
+locks.forEach(lock => {
+  lock.innerHTML = lockSVG;
+})
 
 const getHands = () => {
   const scores = [...results];
@@ -82,7 +108,7 @@ const roll = (j) => {
 
   for (let i = 1; i < sequence.length + 1; i++) {
     setTimeout(() => {
-      elems[j].style.transform = sideRotations[sequence[i - 1]];
+      dice[j].style.transform = sideRotations[sequence[i - 1]];
     }, i * 250);
   }
 
@@ -96,20 +122,40 @@ rollAll.addEventListener('click', () => {
 
   results = [];
   outcome.textContent = '';
-  elems.forEach((elem, i) => roll(i));
+  dice.forEach((die, i) => roll(i));
 
   setTimeout(() => {
     outcome.textContent = `Outcome: ${getHands()}`;
     hint.style.display = 'block';
     reload.style.display = 'block';
+    reroll.style.display = 'block';
+    lockRow.style.display = 'flex';
   }, 3000);
 
-  for (let i = 0; i < elems.length; i++) {
-    elems[i].addEventListener('click', () => {
-      roll(i);
-      Array.from(elems[i].children).forEach(child => child.classList.add('rerolled'));
-    }, { once: true });
+  for (let i = 0; i < locks.length; i++) {
+    locks[i].addEventListener('click', () => {
+      Array.from(locks[i].children).forEach(() => {
+        if (holds[i]) {
+          locks[i].classList.replace('locked', 'unlocked');
+          locks[i].innerHTML = unlockSVG;
+          holds[i] = false;
+        } else {
+          locks[i].classList.replace('unlocked', 'locked');
+          locks[i].innerHTML = lockSVG;
+          holds[i] = true;
+        }
+      });
+      console.log(holds);
+    });
   }
+
+  reroll.addEventListener('click', () => {
+    lockRow.style.display = 'none';
+    reroll.style.display = 'none';
+    holds.forEach((hold, index) => {
+      if (!hold) { roll(index) }
+    })
+  });
 
   reload.addEventListener('click', () => window.location.reload());
 });

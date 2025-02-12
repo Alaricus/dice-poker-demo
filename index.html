@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Dice Poker Demo</title>
     <meta charset="UTF-8" />
@@ -52,13 +52,25 @@
           <div class="face face-6"><img src="./svgs/die-6.svg" /></div>
         </div>
       </div>
+      <div class="lock-row">
+        <button class="locked" id="lock1">
+        </button>
+        <button class="locked" id="lock2">
+        </button>
+        <button class="locked" id="lock3">
+        </button>
+        <button class="locked" id="lock4">
+        </button>
+        <button class="locked" id="lock5">
+        </button>
+      </div>
+    <div id="controls">
+      <button type="button" id="roll-all">roll</button>
+      <h2></h2>
+      <p>To improve the outcome you can click on the locks to unlock the dice you want to reroll.</p>
+      <button type="button" id="reroll">reroll</button>
+      <button type="button" id="reload">↻</button>
     </div>
-    <div class="die-row">
-      <button type="button">roll</button>
-    </div>
-    <h2></h2>
-    <p>You can re-roll each die once to try and improve the outcome. Click on a die to re-roll.</p>
-    <button type="button" id="reload">↻</button>
 
     <script src="./index.js"></script>
   </body>
