@@ -1,31 +1,14 @@
-const pcDie1 = document.querySelector('#pc-die1');
-const pcDie2 = document.querySelector('#pc-die2');
-const pcDie3 = document.querySelector('#pc-die3');
-const pcDie4 = document.querySelector('#pc-die4');
-const pcDie5 = document.querySelector('#pc-die5');
-const playerDie1 = document.querySelector('#player-die1');
-const playerDie2 = document.querySelector('#player-die2');
-const playerDie3 = document.querySelector('#player-die3');
-const playerDie4 = document.querySelector('#player-die4');
-const playerDie5 = document.querySelector('#player-die5');
+const [pcDie1, pcDie2, pcDie3, pcDie4, pcDie5, userDie1, userDie2, userDie3, userDie4, userDie5] = document.querySelectorAll('.die');
 const rollAll = document.querySelector('#roll-all');
 const lockRow = document.querySelector('.lock-row');
-const playerOutcome = document.querySelector('#playerOutcome');
-const pcOutcome = document.querySelector('#pcOutcome');
+const [pcOutcome, userOutcome] = document.querySelectorAll('h2');
 const hint = document.querySelector('p');
 const reload = document.querySelector('#reload');
 const reroll = document.querySelector('#reroll');
-const lock1 = document.querySelector('#lock1');
-const lock2 = document.querySelector('#lock2');
-const lock3 = document.querySelector('#lock3');
-const lock4 = document.querySelector('#lock4');
-const lock5 = document.querySelector('#lock5');
-const dialog = document.querySelector('dialog');
-const dialogText = document.querySelector('dialog > h2');
-const dialogCTA = document.querySelector('dialog > button');
+const [lock1, lock2, lock3, lock4, lock5] = document.querySelectorAll('input[type=checkbox]');
 
 const pcDice = [pcDie1, pcDie2, pcDie3, pcDie4, pcDie5];
-const playerDice = [playerDie1, playerDie2, playerDie3, playerDie4, playerDie5];
+const userDice = [userDie1, userDie2, userDie3, userDie4, userDie5];
 const locks = [lock1, lock2, lock3, lock4, lock5];
 
 const sideRotations = {
@@ -38,9 +21,9 @@ const sideRotations = {
 };
 
 let pcResults = [];
-let playerResults = [];
+let userResults = [];
 let pcHandRank = 0;
-let playerHandRank = 0;
+let userHandRank = 0;
 
 const suggestionsToHold = (toBeat) => {
   let indicesToReroll = [];
@@ -59,19 +42,25 @@ const suggestionsToHold = (toBeat) => {
 
   indicesToReroll.forEach((i) => roll(pcDice, i, 'pc'));
   setTimeout(() => {
-    pcOutcome.textContent = `Opponent's Outcome: ${getHands(pcResults, 'pc')}`;
+    pcOutcome.children[1].textContent = getHands(pcResults, 'pc');
     const winner = compareHands();
     if (winner === 'Tie') {
-      dialogText.textContent = "It's a tie!"
+      pcOutcome.style.color = "dodgerblue";
+      userOutcome.style.color = "dodgerblue";
+      pcOutcome.children[0].textContent = 'TIE: ';
+      userOutcome.children[0].textContent = 'TIE: ';
     }
     if (winner === 'PC') {
-      dialogText.textContent = "The opponent won!"
+      pcOutcome.style.color = "forestgreen";
+      userOutcome.style.color = "crimson";
+      pcOutcome.children[0].textContent = 'WINNER: ';
     }
     if (winner === 'You') {
-      dialogText.textContent = "You won!"
+      pcOutcome.style.color = "crimson";
+      userOutcome.style.color = "forestgreen";
+      userOutcome.children[0].textContent = 'WINNER: ';
     }
-    dialog.showModal();
-  }, 3000);
+  }, holdList.length === 5 ? 0 : 3000);
 
 };
 
@@ -89,8 +78,8 @@ const getHands = (results, agent) => {
   }, {});
 
   if (Object.values(counts).includes(5)) {
-    if (agent === 'player') {
-      playerHandRank = 8;
+    if (agent === 'user') {
+      userHandRank = 8;
     } else {
       pcHandRank = 8;
     }
@@ -98,8 +87,8 @@ const getHands = (results, agent) => {
   }
 
   if (Object.values(counts).includes(4)) {
-    if (agent === 'player') {
-      playerHandRank = 7;
+    if (agent === 'user') {
+      userHandRank = 7;
     } else {
       pcHandRank = 7;
     }
@@ -107,8 +96,8 @@ const getHands = (results, agent) => {
   }
 
   if (Object.values(counts).includes(3) && Object.values(counts).includes(2)) {
-    if (agent === 'player') {
-      playerHandRank = 6;
+    if (agent === 'user') {
+      userHandRank = 6;
     } else {
       pcHandRank = 6;
     }
@@ -116,8 +105,8 @@ const getHands = (results, agent) => {
   }
 
   if (JSON.stringify(Object.keys(counts)) === '["2","3","4","5","6"]') {
-    if (agent === 'player') {
-      playerHandRank = 5;
+    if (agent === 'user') {
+      userHandRank = 5;
     } else {
       pcHandRank = 5;
     }
@@ -125,8 +114,8 @@ const getHands = (results, agent) => {
   }
 
   if (JSON.stringify(Object.keys(counts)) === '["1","2","3","4","5"]') {
-    if (agent === 'player') {
-      playerHandRank = 4;
+    if (agent === 'user') {
+      userHandRank = 4;
     } else {
       pcHandRank = 4;
     }
@@ -134,8 +123,8 @@ const getHands = (results, agent) => {
   }
 
   if (Object.values(counts).includes(3)) {
-    if (agent === 'player') {
-      playerHandRank = 3;
+    if (agent === 'user') {
+      userHandRank = 3;
     } else {
       pcHandRank = 3;
     }
@@ -143,8 +132,8 @@ const getHands = (results, agent) => {
   }
 
   if (Object.values(counts).filter(count => count === 2).length === 2) {
-    if (agent === 'player') {
-      playerHandRank = 2;
+    if (agent === 'user') {
+      userHandRank = 2;
     } else {
       pcHandRank = 2;
     }
@@ -152,16 +141,16 @@ const getHands = (results, agent) => {
   }
 
   if (Object.values(counts).includes(2)) {
-    if (agent === 'player') {
-      playerHandRank = 1;
+    if (agent === 'user') {
+      userHandRank = 1;
     } else {
       pcHandRank = 1;
     }
     return 'Pair';
   }
 
-  if (agent === 'player') {
-    playerHandRank = 0;
+  if (agent === 'user') {
+    userHandRank = 0;
   } else {
     pcHandRank = 0;
   }
@@ -169,72 +158,72 @@ const getHands = (results, agent) => {
 };
 
 const compareHands = () => {
-  if (pcHandRank !== playerHandRank) {
-    return pcHandRank > playerHandRank ? 'PC' : 'You';
+  if (pcHandRank !== userHandRank) {
+    return pcHandRank > userHandRank ? 'PC' : 'You';
   }
 
   const pcTally = getTallies(pcResults);
-  const playerTally = getTallies(playerResults);
+  const userTally = getTallies(userResults);
 
   if (pcHandRank === 1) { // Pair
     const pcWeight = pcTally.findIndex(t => t === 2);
-    const playerWeight = playerTally.findIndex(t => t === 2);
-    if (pcWeight !== playerWeight) {
-      return pcWeight > playerWeight ? 'PC' : 'You';
+    const userWeight = userTally.findIndex(t => t === 2);
+    if (pcWeight !== userWeight) {
+      return pcWeight > userWeight ? 'PC' : 'You';
     }
   }
 
   if (pcHandRank === 2) { // Two Pairs
     const pcWeight = pcTally.reduce((acc, cur, i) => cur === 2 ? acc + i : acc, 0);
-    const playerWeight = playerTally.reduce((acc, cur, i) => cur === 2 ? acc + i : acc, 0);
-    if (pcWeight !== playerWeight) {
-      return pcWeight > playerWeight ? 'PC' : 'You';
+    const userWeight = userTally.reduce((acc, cur, i) => cur === 2 ? acc + i : acc, 0);
+    if (pcWeight !== userWeight) {
+      return pcWeight > userWeight ? 'PC' : 'You';
     }
   }
 
   if (pcHandRank === 3) { // Three of a Kind
     const pcWeight = pcTally.findIndex(t => t === 3);
-    const playerWeight = playerTally.findIndex(t => t === 3);
-    if (pcWeight !== playerWeight) {
-      return pcWeight > playerWeight ? 'PC' : 'You';
+    const userWeight = userTally.findIndex(t => t === 3);
+    if (pcWeight !== userWeight) {
+      return pcWeight > userWeight ? 'PC' : 'You';
     }
   }
 
   if (pcHandRank === 6) { // Full House
     const pcWeightTriple = pcTally.findIndex(t => t === 3);
-    const playerWeightTriple = playerTally.findIndex(t => t === 3);
-    if (pcWeightTriple !== playerWeightTriple) {
-      return pcWeightTriple > playerWeightTriple ? 'PC' : 'You';
+    const userWeightTriple = userTally.findIndex(t => t === 3);
+    if (pcWeightTriple !== userWeightTriple) {
+      return pcWeightTriple > userWeightTriple ? 'PC' : 'You';
     }
     const pcWeightPair = pcTally.findIndex(t => t === 2);
-    const playerWeightPair = playerTally.findIndex(t => t === 2);
-    if (pcWeightPair !== playerWeightPair) {
-      return pcWeightPair > playerWeightPair ? 'PC' : 'You';
+    const userWeightPair = userTally.findIndex(t => t === 2);
+    if (pcWeightPair !== userWeightPair) {
+      return pcWeightPair > userWeightPair ? 'PC' : 'You';
     }
   }
 
   if (pcHandRank === 7) { // Four of a Kind
     const pcWeight = pcTally.findIndex(t => t === 4);
-    const playerWeight = playerTally.findIndex(t => t === 4);
-    if (pcWeight !== playerWeight) {
-      return pcWeight > playerWeight ? 'PC' : 'You';
+    const userWeight = userTally.findIndex(t => t === 4);
+    if (pcWeight !== userWeight) {
+      return pcWeight > userWeight ? 'PC' : 'You';
     }
   }
 
   if (pcHandRank === 8) { // Five of a Kind
     const pcWeight = pcTally.findIndex(t => t === 5);
-    const playerWeight = playerTally.findIndex(t => t === 5);
-    if (pcWeight !== playerWeight) {
-      return pcWeight > playerWeight ? 'PC' : 'You';
+    const userWeight = userTally.findIndex(t => t === 5);
+    if (pcWeight !== userWeight) {
+      return pcWeight > userWeight ? 'PC' : 'You';
     }
   }
 
   // Counting up all the cards both in case of "Nothing" and also when other numbers match: [11345] and [11245]
   const pcWeight = pcResults.reduce((acc, cur) => acc + cur, 0);
-  const playerWeight = pcResults.reduce((acc, cur) => acc + cur, 0);
+  const userWeight = pcResults.reduce((acc, cur) => acc + cur, 0);
 
-  if (pcWeight !== playerWeight) {
-    return pcWeight > playerWeight ? 'PC' : 'You';
+  if (pcWeight !== userWeight) {
+    return pcWeight > userWeight ? 'PC' : 'You';
   }
 
   return 'Tie';
@@ -255,8 +244,8 @@ const roll = (dice, j, agent) => {
     }
   }
 
-  if (agent === 'player') {
-    playerResults[j] = sequence[sequence.length - 1];
+  if (agent === 'user') {
+    userResults[j] = sequence[sequence.length - 1];
   } else {
     pcResults[j] = sequence[sequence.length - 1];
   }
@@ -270,17 +259,14 @@ const roll = (dice, j, agent) => {
 
 rollAll.addEventListener('click', () => {
   rollAll.style.display = 'none';
-
-  playerResults = [];
-  pcResults = [];
-  playerOutcome.textContent = '';
-  pcOutcome.textContent = '';
-  playerDice.forEach((die, i) => roll(playerDice, i, 'player'));
+  userDice.forEach((die, i) => roll(userDice, i, 'user'));
   pcDice.forEach((die, i) => roll(pcDice, i, 'pc'));
 
   setTimeout(() => {
-    playerOutcome.textContent = `Your Outcome: ${getHands(playerResults, 'player')}`;
-    pcOutcome.textContent = `Opponent's Outcome: ${getHands(pcResults, 'pc')}`;
+    pcOutcome.children[0].textContent = 'Opponent\'s Outcome: ';
+    pcOutcome.children[1].textContent = getHands(pcResults, 'pc');
+    userOutcome.children[0].textContent = 'Your Outcome: ';
+    userOutcome.children[1].textContent = getHands(userResults, 'user');
     hint.style.display = 'block';
     reload.style.display = 'block';
     reroll.style.display = 'block';
@@ -291,19 +277,17 @@ rollAll.addEventListener('click', () => {
     lockRow.style.display = 'none';
     reroll.style.display = 'none';
     locks.forEach((lock, index) => {
-      if (lock.checked) { roll(playerDice, index, 'player') }
-    })
+      if (lock.checked) { roll(userDice, index, 'user') }
+    });
     setTimeout(() => {
-      const playerHand = getHands(playerResults, 'player');
-      playerOutcome.textContent = `Your Outcome: ${playerHand}`;
-      suggestionsToHold(playerHand);
-    }, 3000);
+      const userHand = getHands(userResults, 'user');
+      userOutcome.children[1].textContent = getHands(userResults, 'user');
+      suggestionsToHold(userHand);
+    }, locks.every(lock => !lock.checked) ? 0 : 3000);
   }, { once: true });
 
   reload.addEventListener('click', () => window.location.reload(), { once: true });
 }, { once: true });
-
-dialogCTA.addEventListener('click', () => dialog.close());
 
 const lookupTable = {
   11111: { 'Pair': '11111', 'Two Pairs': '11111', 'Three of a Kind': '11111', 'Five High Straight': '11111', 'Six High Straight': '11111', 'Full House': '11111', 'Four of a Kind': '11111', 'Five of a Kind': '11111' },

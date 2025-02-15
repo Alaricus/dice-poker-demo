@@ -5,11 +5,24 @@
 }
 
 body {
+  color: #DDDDDD;
+  background: #1E1E1E;
+  background-image: url('./svgs/background.svg');
+  background-position: center;
   font-family: sans-serif;
-  background-color: #222;
-  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  background: #2B2B2B;
+  min-height: 100dvh;
+  padding: 0.5rem 2rem 1rem;
   text-align: center;
-  padding-top: 3rem;
+}
+
+h1 {
+  margin-bottom: 5rem;
 }
 
 button {
@@ -77,9 +90,8 @@ dialog > button {
   margin-top: 1rem;
 }
 
-.game {
-  margin: 3rem auto;
-  width: 800px;
+#roll-all {
+  margin-top: 3rem;
 }
 
 .die-row {
@@ -176,4 +188,12 @@ dialog > button {
 
 .face-6 {
   transform: rotateX(180deg) translateZ(calc(var(--die-width) / 2)) ;
+}
+
+@media screen and (min-width: 720px) {
+  main {
+    padding: 1rem 7.8rem;
+    margin: 0 auto;
+    width: 65.6rem;
+  }
 }

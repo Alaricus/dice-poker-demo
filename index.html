@@ -6,12 +6,11 @@
     <link href="./index.css" rel="stylesheet" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>" />
   </head>
-
   <body>
-    <h1>Dice Poker</h1>
-    <div class="game">
+    <main>
+      <h1>Dice Poker</h1>
       <div class="die-row">
-        <div class="die" id="pc-die1">
+        <div class="die">
           <div class="face face-1"><img src="./svgs/die-1.svg" /></div>
           <div class="face face-2"><img src="./svgs/die-2.svg" /></div>
           <div class="face face-3"><img src="./svgs/die-3.svg" /></div>
@@ -19,7 +18,7 @@
           <div class="face face-5"><img src="./svgs/die-5.svg" /></div>
           <div class="face face-6"><img src="./svgs/die-6.svg" /></div>
         </div>
-        <div class="die" id="pc-die2">
+        <div class="die">
           <div class="face face-1"><img src="./svgs/die-1.svg" /></div>
           <div class="face face-2"><img src="./svgs/die-2.svg" /></div>
           <div class="face face-3"><img src="./svgs/die-3.svg" /></div>
@@ -27,7 +26,7 @@
           <div class="face face-5"><img src="./svgs/die-5.svg" /></div>
           <div class="face face-6"><img src="./svgs/die-6.svg" /></div>
         </div>
-        <div class="die" id="pc-die3">
+        <div class="die">
           <div class="face face-1"><img src="./svgs/die-1.svg" /></div>
           <div class="face face-2"><img src="./svgs/die-2.svg" /></div>
           <div class="face face-3"><img src="./svgs/die-3.svg" /></div>
@@ -35,7 +34,7 @@
           <div class="face face-5"><img src="./svgs/die-5.svg" /></div>
           <div class="face face-6"><img src="./svgs/die-6.svg" /></div>
         </div>
-        <div class="die" id="pc-die4">
+        <div class="die">
           <div class="face face-1"><img src="./svgs/die-1.svg" /></div>
           <div class="face face-2"><img src="./svgs/die-2.svg" /></div>
           <div class="face face-3"><img src="./svgs/die-3.svg" /></div>
@@ -43,7 +42,7 @@
           <div class="face face-5"><img src="./svgs/die-5.svg" /></div>
           <div class="face face-6"><img src="./svgs/die-6.svg" /></div>
         </div>
-        <div class="die" id="pc-die5">
+        <div class="die">
           <div class="face face-1"><img src="./svgs/die-1.svg" /></div>
           <div class="face face-2"><img src="./svgs/die-2.svg" /></div>
           <div class="face face-3"><img src="./svgs/die-3.svg" /></div>
@@ -53,10 +52,10 @@
         </div>
       </div>
       <div class="opponent-info">
-        <h2 id="pcOutcome"></h2>
+        <h2><span></span><span></span></h2>
       </div>
       <div class="die-row">
-        <div class="die" id="player-die1">
+        <div class="die">
           <div class="face face-1"><img src="./svgs/die-1.svg" /></div>
           <div class="face face-2"><img src="./svgs/die-2.svg" /></div>
           <div class="face face-3"><img src="./svgs/die-3.svg" /></div>
@@ -64,7 +63,7 @@
           <div class="face face-5"><img src="./svgs/die-5.svg" /></div>
           <div class="face face-6"><img src="./svgs/die-6.svg" /></div>
         </div>
-        <div class="die" id="player-die2">
+        <div class="die">
           <div class="face face-1"><img src="./svgs/die-1.svg" /></div>
           <div class="face face-2"><img src="./svgs/die-2.svg" /></div>
           <div class="face face-3"><img src="./svgs/die-3.svg" /></div>
@@ -72,7 +71,7 @@
           <div class="face face-5"><img src="./svgs/die-5.svg" /></div>
           <div class="face face-6"><img src="./svgs/die-6.svg" /></div>
         </div>
-        <div class="die" id="player-die3">
+        <div class="die">
           <div class="face face-1"><img src="./svgs/die-1.svg" /></div>
           <div class="face face-2"><img src="./svgs/die-2.svg" /></div>
           <div class="face face-3"><img src="./svgs/die-3.svg" /></div>
@@ -80,7 +79,7 @@
           <div class="face face-5"><img src="./svgs/die-5.svg" /></div>
           <div class="face face-6"><img src="./svgs/die-6.svg" /></div>
         </div>
-        <div class="die" id="player-die4">
+        <div class="die">
           <div class="face face-1"><img src="./svgs/die-1.svg" /></div>
           <div class="face face-2"><img src="./svgs/die-2.svg" /></div>
           <div class="face face-3"><img src="./svgs/die-3.svg" /></div>
@@ -88,7 +87,7 @@
           <div class="face face-5"><img src="./svgs/die-5.svg" /></div>
           <div class="face face-6"><img src="./svgs/die-6.svg" /></div>
         </div>
-        <div class="die" id="player-die5">
+        <div class="die">
           <div class="face face-1"><img src="./svgs/die-1.svg" /></div>
           <div class="face face-2"><img src="./svgs/die-2.svg" /></div>
           <div class="face face-3"><img src="./svgs/die-3.svg" /></div>
@@ -99,23 +98,19 @@
       </div>
       <div class="controls">
         <button type="button" id="roll-all">roll</button>
-        <h2 id="playerOutcome"></h2>
+        <h2><span></span><span></span></h2>
         <p>Click on the locks to unlock the dice you want to reroll.</p>
         <button type="button" id="reroll">reroll</button>
         <button type="button" id="reload">restart</button>
         <div class="lock-row">
-          <input type="checkbox" id="lock1" />
-          <input type="checkbox" id="lock2" />
-          <input type="checkbox" id="lock3" />
-          <input type="checkbox" id="lock4" />
-          <input type="checkbox" id="lock5" />
+          <input type="checkbox" />
+          <input type="checkbox" />
+          <input type="checkbox" />
+          <input type="checkbox" />
+          <input type="checkbox" />
         </div>
-    </div>
-    <dialog>
-      <h2></h2>
-      <button>OK</button>
-    </dialog>
-
+      </div>
+    </main>
     <script src="./index.js"></script>
   </body>
 </html>
