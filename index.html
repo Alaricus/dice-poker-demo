@@ -97,25 +97,24 @@
           <div class="face face-6"><img src="./svgs/die-6.svg" /></div>
         </div>
       </div>
-      <div class="lock-row">
-        <button class="locked" id="lock1">
-        </button>
-        <button class="locked" id="lock2">
-        </button>
-        <button class="locked" id="lock3">
-        </button>
-        <button class="locked" id="lock4">
-        </button>
-        <button class="locked" id="lock5">
-        </button>
-      </div>
-    <div class="controls">
-      <button type="button" id="roll-all">roll</button>
-      <h2 id="playerOutcome"></h2>
-      <p>Click on the locks to unlock the dice you want to reroll.</p>
-      <button type="button" id="reroll">reroll</button>
-      <button type="button" id="reload">↻</button>
+      <div class="controls">
+        <button type="button" id="roll-all">roll</button>
+        <h2 id="playerOutcome"></h2>
+        <p>Click on the locks to unlock the dice you want to reroll.</p>
+        <button type="button" id="reroll">reroll</button>
+        <button type="button" id="reload">restart</button>
+        <div class="lock-row">
+          <input type="checkbox" id="lock1" />
+          <input type="checkbox" id="lock2" />
+          <input type="checkbox" id="lock3" />
+          <input type="checkbox" id="lock4" />
+          <input type="checkbox" id="lock5" />
+        </div>
     </div>
+    <dialog>
+      <h2></h2>
+      <button>OK</button>
+    </dialog>
 
     <script src="./index.js"></script>
   </body>

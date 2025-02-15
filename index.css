@@ -28,7 +28,25 @@ button:hover {
 p {
   display: none;
   color: gray;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 5rem;
+}
+
+dialog {
+  border-radius: 5px;
+  margin: auto;
+  padding: 3rem 3rem 2rem 3rem;
+  width: 30rem;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+dialog > button {
+  font-size: 1rem;
+  margin-top: 2rem;
+  padding: 0.5rem 1rem;
 }
 
 .controls {
@@ -37,19 +55,20 @@ p {
 
 .opponent-info {
   margin: 2rem auto 8rem;
+  min-height: 2rem;
+  max-height: 2rem;
 }
 
 #reload {
   display: none;
   margin: auto;
-  color: white;
+  color: gray;
   background: none;
   border: none;
 }
 
 #reload:hover {
-  color: rgb(0, 150, 0);
-  text-shadow: white 1px 0 15px;
+  color: white;
 }
 
 #reroll {
@@ -85,24 +104,27 @@ p {
   display: none;
   align-items: center;
   justify-content: space-evenly;
-  height: 100px;
+  position: relative;
+  top: -28.25rem;
+  left: 4.1rem;
 }
 
-.lock-row button {
-  background-color: transparent;
-  font-size: 3rem;
+.lock-row input[type=checkbox] {
+  appearance: none;
+  background-color: rgba(255, 0, 0, 0.2);
+  background-image: url('/svgs/locked.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 3rem;
+  margin: 1.63rem;
+  padding: 1.5rem;
 }
 
-.locked {
-  color: red;
-}
-
-.unlocked {
-  color: green;
-}
-
-.rerolled {
-  color: firebrick !important;
+.lock-row input[type=checkbox]:checked {
+  background-color: rgba(0, 225, 0, 0.2);
+  background-image: url('/svgs/unlocked.svg');
 }
 
 .face {

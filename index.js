@@ -20,6 +20,9 @@ const lock2 = document.querySelector('#lock2');
 const lock3 = document.querySelector('#lock3');
 const lock4 = document.querySelector('#lock4');
 const lock5 = document.querySelector('#lock5');
+const dialog = document.querySelector('dialog');
+const dialogText = document.querySelector('dialog > h2');
+const dialogCTA = document.querySelector('dialog > button');
 
 const pcDice = [pcDie1, pcDie2, pcDie3, pcDie4, pcDie5];
 const playerDice = [playerDie1, playerDie2, playerDie3, playerDie4, playerDie5];
@@ -34,28 +37,10 @@ const sideRotations = {
   6: 'rotateX(165deg) rotateY(15deg)',
 };
 
-const holds = [true, true, true, true, true];
-
 let pcResults = [];
 let playerResults = [];
 let pcHandRank = 0;
 let playerHandRank = 0;
-
-const lockSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="30" height="30" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor">
-  <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
-  <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
-  <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
-</svg>`;
-
-const unlockSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="30" height="30" stroke-width="2">
-  <path d="M5 11m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
-  <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-  <path d="M8 11v-5a4 4 0 0 1 8 0"></path>
-</svg>`;
-
-locks.forEach(lock => {
-  lock.innerHTML = lockSVG;
-});
 
 const suggestionsToHold = (toBeat) => {
   let indicesToReroll = [];
@@ -77,15 +62,15 @@ const suggestionsToHold = (toBeat) => {
     pcOutcome.textContent = `Opponent's Outcome: ${getHands(pcResults, 'pc')}`;
     const winner = compareHands();
     if (winner === 'Tie') {
-      pcOutcome.textContent = `Opponent's Outcome: ${getHands(pcResults, 'pc')} --- It's a Tie!`
-      playerOutcome.textContent = `Your Outcome: ${getHands(playerResults, 'pc')} --- It's a Tie!`
+      dialogText.textContent = "It's a tie!"
     }
     if (winner === 'PC') {
-      pcOutcome.textContent = `Opponent's Outcome: ${getHands(pcResults, 'pc')} --- Winner!`
+      dialogText.textContent = "The opponent won!"
     }
     if (winner === 'You') {
-      playerOutcome.textContent = `Your Outcome: ${getHands(playerResults, 'pc')} --- Winner!`
+      dialogText.textContent = "You won!"
     }
+    dialog.showModal();
   }, 3000);
 
 };
@@ -302,27 +287,11 @@ rollAll.addEventListener('click', () => {
     lockRow.style.display = 'flex';
   }, 3000);
 
-  for (let i = 0; i < locks.length; i++) {
-    locks[i].addEventListener('click', () => {
-      Array.from(locks[i].children).forEach(() => {
-        if (holds[i]) {
-          locks[i].classList.replace('locked', 'unlocked');
-          locks[i].innerHTML = unlockSVG;
-          holds[i] = false;
-        } else {
-          locks[i].classList.replace('unlocked', 'locked');
-          locks[i].innerHTML = lockSVG;
-          holds[i] = true;
-        }
-      });
-    });
-  }
-
   reroll.addEventListener('click', () => {
     lockRow.style.display = 'none';
     reroll.style.display = 'none';
-    holds.forEach((hold, index) => {
-      if (!hold) { roll(playerDice, index, 'player') }
+    locks.forEach((lock, index) => {
+      if (lock.checked) { roll(playerDice, index, 'player') }
     })
     setTimeout(() => {
       const playerHand = getHands(playerResults, 'player');
@@ -333,6 +302,8 @@ rollAll.addEventListener('click', () => {
 
   reload.addEventListener('click', () => window.location.reload(), { once: true });
 }, { once: true });
+
+dialogCTA.addEventListener('click', () => dialog.close());
 
 const lookupTable = {
   11111: { 'Pair': '11111', 'Two Pairs': '11111', 'Three of a Kind': '11111', 'Five High Straight': '11111', 'Six High Straight': '11111', 'Full House': '11111', 'Four of a Kind': '11111', 'Five of a Kind': '11111' },
