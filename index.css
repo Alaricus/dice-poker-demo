@@ -112,7 +112,7 @@ dialog > button {
 .lock-row input[type=checkbox] {
   appearance: none;
   background-color: rgba(255, 0, 0, 0.2);
-  background-image: url('/svgs/locked.svg');
+  background-image: url('./svgs/locked.svg');
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 50%;
@@ -124,7 +124,7 @@ dialog > button {
 
 .lock-row input[type=checkbox]:checked {
   background-color: rgba(0, 225, 0, 0.2);
-  background-image: url('/svgs/unlocked.svg');
+  background-image: url('./svgs/unlocked.svg');
 }
 
 .face {
