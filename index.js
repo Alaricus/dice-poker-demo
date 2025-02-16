@@ -174,10 +174,18 @@ const compareHands = () => {
   }
 
   if (pcHandRank === 2) { // Two Pairs
-    const pcWeight = pcTally.reduce((acc, cur, i) => cur === 2 ? acc + i : acc, 0);
-    const userWeight = userTally.reduce((acc, cur, i) => cur === 2 ? acc + i : acc, 0);
-    if (pcWeight !== userWeight) {
-      return pcWeight > userWeight ? 'PC' : 'You';
+    const pcWeight1 = pcTally.reduce((acc, cur, i) => cur === 2 && i > acc ? i : acc, 0);
+    const userWeight1 = userTally.reduce((acc, cur, i) => cur === 2 && i > acc ? i : acc, 0);
+
+    if (pcWeight1 !== userWeight1) {
+      return pcWeight1 > userWeight1 ? 'PC' : 'You';
+    }
+
+    const pcWeight2 = pcTally.reduce((acc, cur, i) => cur === 2 && i < acc ? i : acc, pcWeight1);
+    const userWeight2 = userTally.reduce((acc, cur, i) => cur === 2 && i < acc ? i : acc, userWeight1);
+
+    if (pcWeight2 !== userWeight2) {
+      return pcWeight2 > userWeight2 ? 'PC' : 'You';
     }
   }
 
@@ -220,7 +228,7 @@ const compareHands = () => {
 
   // Counting up all the cards both in case of "Nothing" and also when other numbers match: [11345] and [11245]
   const pcWeight = pcResults.reduce((acc, cur) => acc + cur, 0);
-  const userWeight = pcResults.reduce((acc, cur) => acc + cur, 0);
+  const userWeight = userResults.reduce((acc, cur) => acc + cur, 0);
 
   if (pcWeight !== userWeight) {
     return pcWeight > userWeight ? 'PC' : 'You';
