@@ -284,6 +284,7 @@ rollAll.addEventListener('click', () => {
   reroll.addEventListener('click', () => {
     lockRow.style.display = 'none';
     reroll.style.display = 'none';
+    hint.style.display = 'none';
     locks.forEach((lock, index) => {
       if (lock.checked) { roll(userDice, index, 'user') }
     });
