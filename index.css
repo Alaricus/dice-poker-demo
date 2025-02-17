@@ -109,7 +109,7 @@ dialog > button {
   height: var(--die-height);
   transform-style: preserve-3d;
   transition: 250ms linear;
-  transform: rotateX(-15deg) rotateY(-15deg);
+  transform: rotate3d(-5, -5, -0.1, -20deg);
 }
 
 .lock-row {
@@ -121,7 +121,7 @@ dialog > button {
   left: 4.1rem;
 }
 
-.lock-row input[type=checkbox] {
+input[type=checkbox] {
   appearance: none;
   background-color: rgba(255, 0, 0, 0.2);
   background-image: url('./svgs/locked.svg');
@@ -134,7 +134,7 @@ dialog > button {
   padding: 1.5rem;
 }
 
-.lock-row input[type=checkbox]:checked {
+input[type=checkbox]:checked {
   background-color: rgba(0, 225, 0, 0.2);
   background-image: url('./svgs/unlocked.svg');
 }
@@ -152,7 +152,6 @@ dialog > button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(var(--die-width) / 2);
   user-select: none;
 }
 
@@ -166,28 +165,28 @@ dialog > button {
   transform: translateZ(-1px);
 }
 
-.face-1 {
+.die > div:nth-child(1) {
   transform: translateZ(calc(var(--die-width) / 2));
 }
 
-.face-2 {
-  transform: rotateX(90deg) translateZ(calc(var(--die-width) / 2)) ;
+.die > div:nth-child(2) {
+  transform: rotateX(90deg) translateZ(calc(var(--die-width) / 2));
 }
 
-.face-3 {
-  transform: rotateY(-90deg) translateZ(calc(var(--die-width) / 2)) ;
+.die > div:nth-child(3) {
+  transform: rotateY(-90deg) translateZ(calc(var(--die-width) / 2));
 }
 
-.face-4 {
-  transform: rotateY(90deg) translateZ(calc(var(--die-width) / 2)) ;
+.die > div:nth-child(4) {
+  transform: rotateY(90deg) translateZ(calc(var(--die-width) / 2));
 }
 
-.face-5 {
-  transform: rotateX(-90deg) translateZ(calc(var(--die-width) / 2)) ;
+.die > div:nth-child(5) {
+  transform: rotateX(-90deg) translateZ(calc(var(--die-width) / 2));
 }
 
-.face-6 {
-  transform: rotateX(180deg) translateZ(calc(var(--die-width) / 2)) ;
+.die > div:nth-child(6) {
+  transform: rotateY(180deg) translateZ(calc(var(--die-width) / 2));
 }
 
 @media screen and (min-width: 720px) {

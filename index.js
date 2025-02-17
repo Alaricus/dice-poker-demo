@@ -12,12 +12,12 @@ const userDice = [userDie1, userDie2, userDie3, userDie4, userDie5];
 const locks = [lock1, lock2, lock3, lock4, lock5];
 
 const sideRotations = {
-  1: 'rotateX(-15deg) rotateY(-15deg)',
-  2: 'rotateX(-105deg) rotateY(0deg) rotateZ(-15deg)',
-  3: 'rotateX(-15deg) rotateY(75deg)',
-  4: 'rotateX(0deg) rotateY(-105deg) rotateZ(15deg)',
-  5: 'rotateX(75deg) rotateY(0deg) rotateZ(15deg)',
-  6: 'rotateX(165deg) rotateY(15deg)',
+  1: 'rotate3d(-5, -5, -0.1, -20deg)',
+  2: 'rotate3d(1, 0, 0, -90deg) rotate3d(-5, 0.1, -5, -20deg)',
+  3: 'rotate3d(0, 1, 0, 90deg) rotate3d(-0.1, 1, 1, 20deg)',
+  4: 'rotate3d(0, 1, 0, -90deg) rotate3d(0.1, 1, -1, 20deg)',
+  5: 'rotate3d(1, 0, 0, 90deg) rotate3d(-5, -0.1, 5, -20deg)',
+  6: 'rotate3d(0, 1, 0, 180deg) rotate3d(5, -5, 0.1, -20deg)',
 };
 
 let pcResults = [];
@@ -25,10 +25,32 @@ let userResults = [];
 let pcHandRank = 0;
 let userHandRank = 0;
 
+const processResults = () => {
+  pcOutcome.children[1].textContent = getHands(pcResults, 'pc');
+  const winner = compareHands();
+  if (winner === 'Tie') {
+    pcOutcome.style.color = "dodgerblue";
+    userOutcome.style.color = "dodgerblue";
+    pcOutcome.children[0].textContent = 'TIE: ';
+    userOutcome.children[0].textContent = 'TIE: ';
+  }
+  if (winner === 'PC') {
+    pcOutcome.style.color = "forestgreen";
+    userOutcome.style.color = "crimson";
+    pcOutcome.children[0].textContent = 'WINNER: ';
+  }
+  if (winner === 'You') {
+    pcOutcome.style.color = "crimson";
+    userOutcome.style.color = "forestgreen";
+    userOutcome.children[0].textContent = 'WINNER: ';
+  }
+};
+
 const suggestionsToHold = (toBeat) => {
   let indicesToReroll = [];
 
   if (toBeat === 'Nothing' && getHands(pcResults, 'pc') !== 'Nothing') {
+    processResults();
     return;
   }
 
@@ -42,24 +64,7 @@ const suggestionsToHold = (toBeat) => {
 
   indicesToReroll.forEach((i) => roll(pcDice, i, 'pc'));
   setTimeout(() => {
-    pcOutcome.children[1].textContent = getHands(pcResults, 'pc');
-    const winner = compareHands();
-    if (winner === 'Tie') {
-      pcOutcome.style.color = "dodgerblue";
-      userOutcome.style.color = "dodgerblue";
-      pcOutcome.children[0].textContent = 'TIE: ';
-      userOutcome.children[0].textContent = 'TIE: ';
-    }
-    if (winner === 'PC') {
-      pcOutcome.style.color = "forestgreen";
-      userOutcome.style.color = "crimson";
-      pcOutcome.children[0].textContent = 'WINNER: ';
-    }
-    if (winner === 'You') {
-      pcOutcome.style.color = "crimson";
-      userOutcome.style.color = "forestgreen";
-      userOutcome.children[0].textContent = 'WINNER: ';
-    }
+    processResults();
   }, holdList.length === 5 ? 0 : 3000);
 
 };
@@ -298,6 +303,7 @@ rollAll.addEventListener('click', () => {
   reload.addEventListener('click', () => window.location.reload(), { once: true });
 }, { once: true });
 
+// The problem with this is that in a case like [11313] vs. [55111] the computer will not reroll and just lose
 const lookupTable = {
   11111: { 'Pair': '11111', 'Two Pairs': '11111', 'Three of a Kind': '11111', 'Five High Straight': '11111', 'Six High Straight': '11111', 'Full House': '11111', 'Four of a Kind': '11111', 'Five of a Kind': '11111' },
   11112: { 'Pair': '1111', 'Two Pairs': '1111', 'Three of a Kind': '1111', 'Five High Straight': '1111', 'Six High Straight': '1111', 'Full House': '1111', 'Four of a Kind': '1111', 'Five of a Kind': '1111' },
